@@ -26,7 +26,7 @@ namespace btcils_server.Controllers
         [HttpGet]
         public Dictionary<string, string> GetPrices()
         {
-            if (DateTime.Now - _date < TimeSpan.FromSeconds(10))
+            if (DateTime.Now - _date < TimeSpan.FromSeconds(6))
                 return _info;
 
             lock (_lockMe)
@@ -35,12 +35,22 @@ namespace btcils_server.Controllers
                     return _info;
 
                 var client = new WebClient();
-                _info["preev"] = client.DownloadString("http://preev.com/pulse/units:btc+ils/sources:bitfinex+bitstamp+btce");
+
+                try
+                {
+                    
+                    _info["preev"] =
+                        client.DownloadString("http://preev.com/pulse/units:btc+ils/sources:bitfinex+bitstamp+btce");
+                }
+                catch
+                {
+                    return _info;
+                }
                 try
                 {
                     _info["btc"] = client.DownloadString("https://bit2c.co.il/Exchanges/BtcNis/Ticker.json");
                 }
-                catch (Exception)
+                catch
                 {
                     
                 }
@@ -49,7 +59,7 @@ namespace btcils_server.Controllers
                 {
                     _info["bog"] = client.DownloadString("https://www.bitsofgold.co.il/api/btc");
                 }
-                catch (Exception)
+                catch
                 {
 
                 }
