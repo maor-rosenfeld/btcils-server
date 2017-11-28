@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace btcils_server.Controllers
 {
+    [EnableCors("http://maor.io", "*", "*")]
     public class ValuesController : ApiController
     {
         [Route("")]
@@ -16,31 +18,45 @@ namespace btcils_server.Controllers
             return "Hello world";
         }
 
-        [Route("hi")]
-        public IEnumerable<string> Get()
+        private static object _lockMe = new Object();
+        private static DateTime _date;
+        private static Dictionary<string,string> _info = new Dictionary<string, string>();
+
+        [Route("get-prices")]
+        [HttpGet]
+        public Dictionary<string, string> GetPrices()
         {
-            return new string[] { "sup", "bro" };
+            if (DateTime.Now - _date < TimeSpan.FromSeconds(10))
+                return _info;
+
+            lock (_lockMe)
+            {
+                if (DateTime.Now - _date < TimeSpan.FromSeconds(10))
+                    return _info;
+
+                var client = new WebClient();
+                _info["preev"] = client.DownloadString("http://preev.com/pulse/units:btc+ils/sources:bitfinex+bitstamp+btce");
+                try
+                {
+                    _info["btc"] = client.DownloadString("https://bit2c.co.il/Exchanges/BtcNis/Ticker.json");
+                }
+                catch (Exception)
+                {
+                    
+                }
+
+                try
+                {
+                    _info["bog"] = client.DownloadString("https://www.bitsofgold.co.il/api/btc");
+                }
+                catch (Exception)
+                {
+
+                }
+                _date = DateTime.Now;
+                return _info;
+            }
         }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }
