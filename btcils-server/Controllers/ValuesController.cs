@@ -15,5 +15,13 @@ namespace btcils_server.Controllers
         {
             return new string[] { "sup", "bro" };
         }
+
+
+        [HttpGet]
+        [Route("")]
+        public string Hello()
+        {
+            return "Welcome to my API server";
+        }
     }
 }
