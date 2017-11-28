@@ -26,7 +26,7 @@ namespace btcils_server.Controllers
         [HttpGet]
         public Dictionary<string, string> GetPrices()
         {
-            if (DateTime.Now - _date < TimeSpan.FromSeconds(6))
+            if (DateTime.Now - _date < TimeSpan.FromSeconds(3))
                 return _info;
 
             lock (_lockMe)
