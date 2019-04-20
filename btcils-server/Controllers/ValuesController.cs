@@ -57,7 +57,7 @@ namespace btcils_server.Controllers
 
                 try
                 {
-                    _info["bog"] = client.DownloadString("https://www.bitsofgold.co.il/api/btc");
+                    _info["bog"] = client.DownloadString("https://webapi.bitsofgold.co.il/v1/rates");
                 }
                 catch
                 {
