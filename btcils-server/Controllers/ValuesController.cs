@@ -55,14 +55,14 @@ namespace btcils_server.Controllers
                     
                 }
 
-                try
-                {
-                    _info["bog"] = client.DownloadString("https://webapi.bitsofgold.co.il/v1/rates");
-                }
-                catch
-                {
-
-                }
+//                try
+//                {
+//                    _info["bog"] = client.DownloadString("https://webapi.bitsofgold.co.il/v1/rates");
+//                }
+//                catch
+//                {
+//
+//                }
                 _date = DateTime.Now;
                 return _info;
             }
