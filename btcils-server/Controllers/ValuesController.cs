@@ -8,7 +8,7 @@ using System.Web.Http.Cors;
 
 namespace btcils_server.Controllers
 {
-    [EnableCors("http://www.maor.io", "*", "*")]
+    [EnableCors("https://www.maor.io", "*", "*")]
     public class ValuesController : ApiController
     {
         [Route("")]
