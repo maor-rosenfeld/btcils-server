@@ -40,7 +40,8 @@ namespace btcils_server.Controllers
                 {
                     
                     _info["preev"] =
-                        client.DownloadString("http://preev.com/pulse/units:btc+ils/sources:bitfinex+bitstamp+btce");
+                        client.DownloadString("https://preev.pro/api/v1/tickers/12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8?include[]=p.l&include[]=tx.h&include[]=t&flat=true");
+                        //http://preev.pro/pulse/units:btc+ils/sources:bitfinex+bitstamp+btce");
                 }
                 catch
                 {
